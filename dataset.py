@@ -29,9 +29,10 @@ def main(config):
     for filename in filenames:
         ext = os.path.splitext(filename)[-1]
         if ext =='.jpg':
-            filename = filename.split('_')[-1][:-len('.jpg')]
-            data_list.append('ISIC_'+filename+'.jpg')
-            GT_list.append('ISIC_'+filename+'_segmentation.png')
+            #filename = filename.split('_')[-1][:-len('.jpg')]
+            filename = filename.split(".")[0]
+            data_list.append(filename+'.jpg')
+            GT_list.append(filename+'.png')
 
     num_total = len(data_list)
     num_train = int((config.train_ratio/(config.train_ratio+config.valid_ratio+config.test_ratio))*num_total)
@@ -47,7 +48,7 @@ def main(config):
 
     for i in range(num_train):
         idx = Arange.pop()
-        
+       
         src = os.path.join(config.origin_data_path, data_list[idx])
         dst = os.path.join(config.train_path,data_list[idx])
         copyfile(src, dst)

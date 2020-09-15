@@ -15,7 +15,7 @@ class ImageFolder(data.Dataset):
 		
 		# GT : Ground Truth
 		self.GT_paths = root[:-1]+'_GT/'
-		self.image_paths = list(map(lambda x: os.path.join(root, x), os.listdir(root)))
+		self.image_paths = os.listdir(root)
 		self.image_size = image_size
 		self.mode = mode
 		self.RotationDegree = [0,90,180,270]
@@ -25,11 +25,17 @@ class ImageFolder(data.Dataset):
 	def __getitem__(self, index):
 		"""Reads an image from a file and preprocesses it and returns."""
 		image_path = self.image_paths[index]
-		filename = image_path.split('_')[-1][:-len(".jpg")]
-		GT_path = self.GT_paths + 'ISIC_' + filename + '_segmentation.png'
+		filename = image_path.split(".")[0]
+		image_path = self.root + filename + '.jpg'
+		GT_path = self.GT_paths + filename + '.png'
 
 		image = Image.open(image_path)
 		GT = Image.open(GT_path)
+
+		image = np.array(image).transpose(2, 0, 1).astype(np.float32)
+		GT = np.array(GT).reshape([1, 540, 720])
+
+		return np.array(image), np.array(GT)
 
 		aspect_ratio = image.size[1]/image.size[0]
 
@@ -87,7 +93,6 @@ class ImageFolder(data.Dataset):
 
 		Norm_ = T.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 		image = Norm_(image)
-
 		return image, GT
 
 	def __len__(self):

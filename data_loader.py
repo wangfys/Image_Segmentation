@@ -29,13 +29,13 @@ class ImageFolder(data.Dataset):
 		image_path = self.root + filename + '.jpg'
 		GT_path = self.GT_paths + filename + '.png'
 
-		image = Image.open(image_path)
-		GT = Image.open(GT_path)
+		image = Image.open(image_path).resize((336, 448))
+		GT = Image.open(GT_path).resize((336, 448))
 
 		image = np.array(image).transpose(2, 0, 1).astype(np.float32)
-		GT = np.array(GT).reshape([1, 540, 720]).astype(np.float32)
+		GT = np.array(GT).reshape([1, 336, 448]).astype(np.float32)
 
-		return image[:,0:528,:], GT[:,0:528,:]
+		return image, GT
 
 		aspect_ratio = image.size[1]/image.size[0]
 

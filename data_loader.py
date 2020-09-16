@@ -35,7 +35,7 @@ class ImageFolder(data.Dataset):
 		image = np.array(image).transpose(2, 0, 1).astype(np.float32)
 		GT = np.array(GT).reshape([1, 540, 720])
 
-		return np.array(image), np.array(GT)
+		return image[:,0:528,:], GT[:,0:528,:]
 
 		aspect_ratio = image.size[1]/image.size[0]
 

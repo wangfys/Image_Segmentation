@@ -33,7 +33,7 @@ class ImageFolder(data.Dataset):
 		GT = Image.open(GT_path)
 
 		image = np.array(image).transpose(2, 0, 1).astype(np.float32)
-		GT = np.array(GT).reshape([1, 540, 720])
+		GT = np.array(GT).reshape([1, 540, 720]).astype(np.float32)
 
 		return image[:,0:528,:], GT[:,0:528,:]
 

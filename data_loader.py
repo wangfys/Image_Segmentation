@@ -29,8 +29,8 @@ class ImageFolder(data.Dataset):
 		image_path = self.root + filename + '.jpg'
 		GT_path = self.GT_paths + filename + '.png'
 
-		image = Image.open(image_path).resize((336, 448))
-		GT = Image.open(GT_path).resize((336, 448))
+		image = Image.open(image_path).resize((448, 336))
+		GT = Image.open(GT_path).resize((448, 336))
 
 		image = np.array(image).transpose(2, 0, 1).astype(np.float32)
 		GT = np.array(GT).reshape([1, 336, 448]).astype(np.float32)
